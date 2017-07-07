@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block main %}
+  <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>SYMBOL</th>
+                <th>USERNAME</th>
+                <th>SHARES</th>
+                <th>PRICE_Amount</th>
+                <th>TOTAL_Amount</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+               <td>{{Total|usd}}</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for item in range(Length) %}
+
+                <tr>
+                    <td>{{SYMBOL[item]}}</td>
+                    <td>{{USERNAME[item]}}</td>
+                    <td>{{SHARES[item]}}</td>
+                    <td>{{PRICE_Amount[item]}}</td>
+                    <td>{{TOTAL_Amount[item]}}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4">CASH</td>
+                <td>{{CASH|usd}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

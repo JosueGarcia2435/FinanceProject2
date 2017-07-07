@@ -173,7 +173,7 @@ def register():
         elif  request.form.get("password") != request.form.get("re-enter password"):
             return apology("password don't match")
         password = request.form.get("password")
-        db.execute("INSERT INTO 'users' (username, hash, cash) VALUES (:username, :hash, 10000)", username=request.form.get("username") , hash=pwd_context.hash(password)) 
+        db.execute("INSERT INTO \"users\" (username, hash, cash) VALUES (:username, :hash, 10000)", username=request.form.get("username") , hash=pwd_context.hash(password)) 
         
         
         # query database for username

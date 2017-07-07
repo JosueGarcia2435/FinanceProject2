@@ -36,7 +36,7 @@ def index():
     row =db.execute("SELECT * from users WHERE id=:id" ,id=session['user_id'] )
     user= row[0]['username']
     CASH= row[0]['cash']
-    rows=db.execute("SELECT * from Portfolio WHERE username=:username" , username=user)
+    rows=db.execute("SELECT * from portfolio WHERE username=:username" , username=user)
     if rows:
         SYMBOL= []
         USERNAME=[]
@@ -82,13 +82,13 @@ def buy():
         cash1 = cash - (shares * price)
         db.execute("UPDATE users SET cash=:cash WHERE id=:id", cash=cash1, id=session['user_id'])
         username = (db.execute("select * from users WHERE id=:id", id=id))[0]['username']
-        result= db.execute("select * from Portfolio WHERE symbol=:symbol AND username=:username",symbol=symbol, username=username)
+        result= db.execute("select * from portfolio WHERE symbol=:symbol AND username=:username",symbol=symbol, username=username)
         if not result:
-            db.execute("insert into Portfolio (username,symbol,shares) values (:username,:symbol,:shares)", username=username, symbol=symbol, shares=shares)
+            db.execute("insert into portfolio (username,symbol,shares) values (:username,:symbol,:shares)", username=username, symbol=symbol, shares=shares)
         else:
             old_shares = result[0]['shares']
             new_shares = old_shares + shares
-            db.execute ("update Portfolio set shares=:share WHERE symbol=:symbol and username=:username" , share=new_shares, username=username, symbol=symbol)
+            db.execute ("update portfolio set shares=:share WHERE symbol=:symbol and username=:username" , share=new_shares, username=username, symbol=symbol)
         return redirect(url_for("index"))
     else:
         return render_template("buy.html")
@@ -216,13 +216,13 @@ def sell():
         id = session['user_id']
         shares = int(request.form.get("shares"))
         username = (db.execute("select * from users WHERE id=:id", id=id))[0]['username']
-        result= db.execute("select * from Portfolio WHERE symbol=:symbol AND username=:username",symbol=symbol, username=username)
+        result= db.execute("select * from portfolio WHERE symbol=:symbol AND username=:username",symbol=symbol, username=username)
         if not result:
-            db.execute("insert into Portfolio (username,symbol,shares) values (:username,:symbol,:shares)", username=username, symbol=symbol, shares=shares)
+            db.execute("insert into portfolio (username,symbol,shares) values (:username,:symbol,:shares)", username=username, symbol=symbol, shares=shares)
         else:
             old_shares = result[0]['shares']
             new_shares = old_shares + shares
-            db.execute ("update Portfolio set shares=:share WHERE symbol=:symbol and username=:username" , share=new_shares, username=username, symbol=symbol)
+            db.execute ("update portfolio set shares=:share WHERE symbol=:symbol and username=:username" , share=new_shares, username=username, symbol=symbol)
             return redirect(url_for("index"))
     else:
         return render_template("sell.html")
